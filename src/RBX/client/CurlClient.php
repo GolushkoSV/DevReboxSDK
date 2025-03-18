@@ -2,12 +2,15 @@
 
 namespace RBX\client;
 
+use RBX\helpers\RawHeaderParser;
+use RBX\dto\ResponseDto;
+
 /**
  * Класс клиента Curl запросов
  *
  * @package YooKassa
  */
-class CurlClient implements ApiClientInterface
+class CurlClient
 {
     /** @var array Настройки клиента */
     private $config;
@@ -27,7 +30,6 @@ class CurlClient implements ApiClientInterface
     /** @var resource Текущий ресурс для работы с curl */
     private $curl;
 
-
     /**
      * @inheritdoc
      *
@@ -37,31 +39,20 @@ class CurlClient implements ApiClientInterface
      * @param string|null $httpBody Тело запроса
      * @param array $headers Массив заголовков запроса
      *
-     * @return ResponseObject
-     * @throws ApiConnectionException
-     * @throws ApiException
-     * @throws AuthorizeException
-     * @throws ExtensionNotFoundException
+     * @return ResponseDto
+     * @throws \Exception
      */
     public function call($path, $method, $queryParams, $httpBody = null, $headers = array())
     {
-        $headers = $this->prepareHeaders($headers);
-
-        $this->logRequestParams($path, $method, $queryParams, $httpBody, $headers);
-
         $url = $this->prepareUrl($path, $queryParams);
 
         $this->prepareCurl($method, $httpBody, $this->implodeHeaders($headers), $url);
 
         list($httpHeaders, $httpBody, $responseInfo) = $this->sendRequest();
 
-        if (!$this->keepAlive) {
-            $this->closeCurlConnection();
-        }
+        $this->closeCurlConnection();
 
-        $this->logResponse($httpBody, $responseInfo, $httpHeaders);
-
-        return new ResponseObject(array(
+        return new ResponseDto(array(
             'code'    => $responseInfo['http_code'],
             'headers' => $httpHeaders,
             'body'    => $httpBody,
@@ -110,13 +101,13 @@ class CurlClient implements ApiClientInterface
 
     /**
      * @return array
-     * @throws ApiConnectionException
+     * @throws \Exception
      */
     public function sendRequest()
     {
         $response       = curl_exec($this->curl);
         $httpHeaderSize = curl_getinfo($this->curl, CURLINFO_HEADER_SIZE);
-        $httpHeaders    = RawHeadersParser::parse(substr($response, 0, $httpHeaderSize));
+        $httpHeaders    = RawHeaderParser::parse(substr($response, 0, $httpHeaderSize));
         $httpBody       = substr($response, $httpHeaderSize);
         $responseInfo   = curl_getinfo($this->curl);
         $curlError      = curl_error($this->curl);
@@ -143,22 +134,11 @@ class CurlClient implements ApiClientInterface
         }
     }
 
-
-    /**
-     * Возвращает UserAgent
-     *
-     * @return UserAgent
-     */
-    public function getUserAgent()
-    {
-        return $this->userAgent;
-    }
-
     /**
      * @param string $error
      * @param int $errno
      *
-     * @throws ApiConnectionException
+     * @throws \Exception
      */
     private function handleCurlError($error, $errno)
     {
@@ -176,7 +156,7 @@ class CurlClient implements ApiClientInterface
                 $msg = 'Unexpected error communicating.';
         }
         $msg .= "\n\n(Network error [errno $errno]: $error)";
-        throw new ApiConnectionException($msg);
+        throw new \Exception($msg);
     }
 
     /**
@@ -191,59 +171,11 @@ class CurlClient implements ApiClientInterface
 
     /**
      * @param array $headers
-     *
-     * @return array
-     */
-    private function prepareHeaders($headers)
-    {
-        $headers = array_merge($this->defaultHeaders, $headers);
-
-        $headers[UserAgent::HEADER] = $this->getUserAgent()->getHeaderString();
-        $headers['Header-Serial'] = '';
-        $headers['Header_sign'] = '';
-
-        if (empty($headers['Authorization'])) {
-            throw new AuthorizeException('Authorization headers not set');
-        }
-
-        return $headers;
-    }
-
-    /**
-     * @param array $headers
      * @return array
      */
     private function implodeHeaders($headers)
     {
         return array_map(function ($key, $value) { return $key . ':' . $value; }, array_keys($headers), $headers);
-    }
-
-    /**
-     * @param string $path
-     * @param string $method
-     * @param array $queryParams
-     * @param string $httpBody
-     * @param array $headers
-     */
-    private function logRequestParams($path, $method, $queryParams, $httpBody, $headers)
-    {
-        if ($this->logger !== null) {
-            $message = 'Send request: ' . $method . ' ' . $path;
-            $context = array();
-            if (!empty($queryParams)) {
-                $context['_params'] = $queryParams;
-            }
-            if (!empty($httpBody)) {
-                $data = json_decode($httpBody, true);
-                if (JSON_ERROR_NONE !== json_last_error()) {
-                    $data = $httpBody;
-                }
-                $context['_body'] = $data;
-            }
-            if (!empty($headers)) {
-                $context['_headers'] = $headers;
-            }
-        }
     }
 
     /**

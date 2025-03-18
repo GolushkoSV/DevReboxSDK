@@ -6,14 +6,10 @@ use RBX\request\ClientCollection;
 
 class RBXApiClient
 {
-    protected const API_HOST = 'http://api-public.rebox.local';
-
-    public function getClient()
+    public function client()
     {
         return new ClientCollection();
     }
-
-
 
 
 

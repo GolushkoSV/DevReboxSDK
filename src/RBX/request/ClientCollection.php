@@ -12,7 +12,7 @@ class ClientCollection extends BaseRequest
         $method = 'GET';
         $path = 'balance';
         try {
-            $result = $this->execute($method, $path);
+            $result = $this->execute($method, $this->route . $path);
         } catch (\Exception $exception) {
 
         }
@@ -23,13 +23,11 @@ class ClientCollection extends BaseRequest
         $method = 'GET';
         $path = 'wallet-list';
         try {
-            $result = $this->execute();
+            $result = $this->execute($method, $this->route . $path);
         } catch (\Exception $exception) {
 
         }
-    }
 
-    public function execute()
-    {
+        return $result;
     }
 }
