@@ -3,7 +3,7 @@
 namespace RBX\client;
 
 use RBX\helpers\RawHeaderParser;
-use RBX\dto\ResponseDto;
+use RBX\response\dto\ResponseDto;
 
 /**
  * Класс клиента Curl запросов
@@ -42,7 +42,7 @@ class CurlClient
      * @return ResponseDto
      * @throws \Exception
      */
-    public function call($path, $method, $queryParams, $httpBody = null, $headers = array())
+    public function call(string $path, string $method, array $queryParams = [], $httpBody = null, array $headers = [])
     {
         $url = $this->prepareUrl($path, $queryParams);
 
@@ -52,11 +52,11 @@ class CurlClient
 
         $this->closeCurlConnection();
 
-        return new ResponseDto(array(
-            'code'    => $responseInfo['http_code'],
-            'headers' => $httpHeaders,
-            'body'    => $httpBody,
-        ));
+        return new ResponseDto(
+            $responseInfo['http_code'],
+            $httpHeaders,
+            $httpBody,
+        );
     }
 
     /**
@@ -146,7 +146,7 @@ class CurlClient
             case CURLE_COULDNT_CONNECT:
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
-                $msg = 'Could not connect to YooKassa API. Please check your internet connection and try again.';
+                $msg = 'Could not connect to Rebox API. Please check your internet connection and try again.';
                 break;
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
@@ -155,6 +155,7 @@ class CurlClient
             default:
                 $msg = 'Unexpected error communicating.';
         }
+
         $msg .= "\n\n(Network error [errno $errno]: $error)";
         throw new \Exception($msg);
     }
@@ -164,9 +165,7 @@ class CurlClient
      */
     private function getUrl()
     {
-        $config = $this->config;
-
-        return $config['url'];
+        return 'http://api-public.rebox.local';
     }
 
     /**
@@ -175,19 +174,19 @@ class CurlClient
      */
     private function implodeHeaders($headers)
     {
-        return array_map(function ($key, $value) { return $key . ':' . $value; }, array_keys($headers), $headers);
+        return array_map(function ($key, $value) {
+            return $key . ':' . $value;
+        }, array_keys($headers), $headers);
     }
 
     /**
-     * @param string $path
+     * @param $url
      * @param array $queryParams
      *
      * @return string
      */
-    private function prepareUrl($path, $queryParams): string
+    private function prepareUrl($url, array $queryParams = []): string
     {
-        $url = $this->getUrl() . $path;
-
         if (!empty($queryParams)) {
             $url = $url . '?' . http_build_query($queryParams);
         }

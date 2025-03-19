@@ -1,6 +1,6 @@
 <?php
 
-namespace RBX\dto;
+namespace RBX\response\dto;
 
 class ResponseDto
 {
@@ -22,19 +22,16 @@ class ResponseDto
      */
     protected $body;
 
-    public function __construct($config = null)
+    /**
+     * @param $code
+     * @param $headers
+     * @param $body
+     */
+    public function __construct($code, $headers, $body)
     {
-        if (isset($config['headers'])) {
-            $this->headers = $config['headers'];
-        }
-
-        if (isset($config['body'])) {
-            $this->body = $config['body'];
-        }
-
-        if (isset($config['code'])) {
-            $this->code = $config['code'];
-        }
+        $this->code     = $code;
+        $this->headers  = $headers;
+        $this->body     = $body;
     }
 
     /**

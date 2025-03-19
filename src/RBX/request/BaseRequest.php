@@ -27,7 +27,7 @@ class BaseRequest
             self::API_HOST . '/'. $path,
             $method,
             $query,
-            $data,
+            json_encode($data),
             $headers
         );
 
