@@ -7,31 +7,32 @@ use RBX\response\dto\client\WalletListDto;
 
 class ClientCollection extends BaseRequest
 {
-    private $route = 'client/';
+    const PATH_BALANCE = 'client/balance';
+    const PATH_WALLET_LIST = 'client/wallet-list';
 
-
+    /**
+     * @param int $currencyId
+     * @return BalanceDto
+     * @throws \Exception
+     */
     public function getBalance(int $currencyId): BalanceDto
     {
-        $method = 'GET';
-        $path = 'balance';
-        $response = $this->execute($this->route . $path, $method, ['currencyId' => $currencyId]);
+        $response = $this->execute(self::PATH_BALANCE, 'GET', ['currencyId' => $currencyId]);
         $result = new BalanceDto();
         $result->parseApiResponse($response);
 
         return $result;
     }
 
-    public function getWalletList()
+    /**
+     * @return WalletListDto
+     * @throws \Exception
+     */
+    public function getWalletList(): WalletListDto
     {
-        $method = 'GET';
-        $path = 'wallet-list';
-        try {
-            $response = $this->execute($this->route . $path, $method);
-            $result = new WalletListDto();
-
-        } catch (\Exception $exception) {
-            return $exception->getMessage();
-        }
+        $response = $this->execute(self::PATH_WALLET_LIST, 'GET');
+        $result = new WalletListDto();
+        $result->parseApiResponse($response);
 
         return $result;
     }
