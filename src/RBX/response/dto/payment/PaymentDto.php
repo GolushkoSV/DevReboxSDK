@@ -21,7 +21,7 @@ class PaymentDto extends BaseResponseDto
     public function parseApiResponse(ResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse->data as $attribute => $value) {
+        foreach ($decodedResponse as $attribute => $value) {
             $this->$attribute = $value;
         }
     }
