@@ -12,7 +12,7 @@ class ReferenceCollection extends BaseRequest
      * @return CurrencyListDto
      * @throws \Exception
      */
-    public function getBalance(): CurrencyListDto
+    public function getCurrencyList(): CurrencyListDto
     {
         $response = $this->execute(self::PATH_CURRENCY_LIST, 'GET');
         $result = new CurrencyListDto();
