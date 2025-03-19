@@ -42,7 +42,7 @@ class PaymentOutCollection extends BaseRequest
             'POST',
             ['methodId' => $methodId],
             [
-                'amount' => $amount,
+                'amount_payment' => $amount,
                 'payment_fields' => $params
             ]
         );
