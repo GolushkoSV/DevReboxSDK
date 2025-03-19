@@ -17,7 +17,7 @@ class CurrencyListDto extends BaseResponseDto
     public function parseApiResponse(ResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse->list as $currency) {
+        foreach ($decodedResponse as $currency) {
             $this->list[] = [
                 'id' => $currency['id'],
                 'code' => $currency['code'],
