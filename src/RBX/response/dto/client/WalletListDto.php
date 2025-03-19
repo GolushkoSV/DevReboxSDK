@@ -23,11 +23,11 @@ class WalletListDto extends BaseResponseDto
     }
 
     /**
-     * @param $currencyId
-     * @param $amount
+     * @param int $currencyId
+     * @param float $amount
      * @return void
      */
-    protected function addWallet($currencyId, $amount)
+    protected function addWallet(int $currencyId, float $amount)
     {
         $this->list[] = [
             'currency_id' => $currencyId,
