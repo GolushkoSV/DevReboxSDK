@@ -7,8 +7,7 @@ use RBX\response\dto\ResponseDto;
 
 class BalanceDto extends BaseResponseDto
 {
-    protected int $currencyId;
-    protected float $amount;
+    protected float $balance = 0;
 
     /**
      * @param ResponseDto $response
@@ -17,9 +16,6 @@ class BalanceDto extends BaseResponseDto
      */
     public function parseApiResponse(ResponseDto $response): void
     {
-        $decodedResponse = $this->decodeResponse($response);
-
-        $this->currencyId = $decodedResponse['currency_id'];
-        $this->amount = $decodedResponse['amount'];
+        $this->balance = $this->decodeResponse($response);
     }
 }

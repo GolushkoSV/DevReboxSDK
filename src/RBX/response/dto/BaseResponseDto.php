@@ -22,6 +22,10 @@ abstract class BaseResponseDto
             throw new \Exception('Не удалось распарсить ответ от сервера');
         }
 
-        return $decodedResponse;
+        if (!isset($decodedResponse['result'])) {
+            throw new \Exception('Ошибка формата ответа от сервера');
+        }
+
+        return $decodedResponse['result'];
     }
 }
