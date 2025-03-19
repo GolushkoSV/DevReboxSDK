@@ -18,4 +18,9 @@ class BalanceDto extends BaseResponseDto
     {
         $this->balance = $this->decodeResponse($response);
     }
+
+    public function getBalance(): float
+    {
+        return $this->balance;
+    }
 }
