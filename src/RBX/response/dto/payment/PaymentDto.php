@@ -11,7 +11,7 @@ class PaymentDto extends BaseResponseDto
     protected string $_chainUid;
     protected int $_code;
     protected float $_total;
-    protected array $_success = [];
+    protected array $_success;
 
     /**
      * @param ResponseDto $response
@@ -21,9 +21,10 @@ class PaymentDto extends BaseResponseDto
     public function parseApiResponse(ResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse as $attribute => $value) {
-            $this->$attribute = $value;
-        }
+        $this->_chainUid = $decodedResponse['chain_uid'];
+        $this->_code = $decodedResponse['code'];
+        $this->_total = $decodedResponse['total'];
+        $this->_success = $decodedResponse['success'];
     }
 
     /**
