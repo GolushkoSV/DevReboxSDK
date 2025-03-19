@@ -4,6 +4,7 @@ namespace RBX\request;
 
 use RBX\response\dto\payment\CheckPaymentDto;
 use RBX\response\dto\payment\MethodListDto;
+use RBX\response\dto\payment\PaymentDto;
 
 class PaymentOutCollection extends BaseRequest
 {
@@ -28,10 +29,13 @@ class PaymentOutCollection extends BaseRequest
     }
 
     /**
-     * @return void
+     * @param int $methodId
+     * @param float $amount
+     * @param array $params
+     * @return PaymentDto
      * @throws \Exception
      */
-    public function payment(int $methodId, float $amount, $params): CheckPaymentDto
+    public function payment(int $methodId, float $amount, array $params): PaymentDto
     {
         $response = $this->execute(
             self::PATH_PAYMENT,
@@ -43,7 +47,7 @@ class PaymentOutCollection extends BaseRequest
             ]
         );
 
-        $result = new CheckPaymentDto();
+        $result = new PaymentDto();
         $result->parseApiResponse($response);
 
         return $result;

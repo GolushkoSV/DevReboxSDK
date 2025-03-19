@@ -30,4 +30,12 @@ class MethodListDto extends BaseResponseDto
             ];
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getList(): array
+    {
+        return $this->list;
+    }
 }
