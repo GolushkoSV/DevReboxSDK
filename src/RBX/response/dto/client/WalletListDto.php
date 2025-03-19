@@ -17,7 +17,7 @@ class WalletListDto extends BaseResponseDto
     public function parseApiResponse(ResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse->data as $item) {
+        foreach ($decodedResponse as $item) {
             $this->addWallet($item['currencyId'], $item['balance']);
         }
     }
