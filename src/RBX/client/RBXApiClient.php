@@ -2,6 +2,7 @@
 
 namespace RBX\client;
 
+use RBX\request\ReferenceCollection;
 use RBX\request\ClientCollection;
 
 class RBXApiClient
@@ -11,48 +12,8 @@ class RBXApiClient
         return new ClientCollection();
     }
 
-
-
-
-
-
-    public function getBalance()
+    public function reference()
     {
-    }
-
-    public function getWalletList()
-    {
-
-    }
-
-
-    public function getPaymentMethodList()
-    {
-
-    }
-
-    public function payment()
-    {
-
-    }
-
-    public function checkPayment()
-    {
-
-    }
-
-    public function checkChainPayment()
-    {
-
-    }
-
-    public function getCurrencyList()
-    {
-
-    }
-
-    private function execute()
-    {
-
+        return new ReferenceCollection();
     }
 }
