@@ -22,9 +22,9 @@ class ChainPaymentDto extends BaseResponseDto
     {
         $decodedResponse = $this->decodeResponse($response);
         $this->total = [
-            'amount_payment' => $decodedResponse['amount_payment'],
-            'amount' => $decodedResponse['amount'],
-            'commission' => $decodedResponse['commission'],
+            'amount_payment' => $decodedResponse['total']['amount_payment'],
+            'amount' => $decodedResponse['total']['amount'],
+            'commission' => $decodedResponse['total']['commission'],
         ];
 
         foreach ($decodedResponse['payments'] as $payment) {
