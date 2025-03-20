@@ -8,10 +8,18 @@ use RBX\response\dto\ResponseDto;
 class PaymentDto extends BaseResponseDto
 {
     protected string $_uid;
-    protected string $_chainUid;
-    protected int $_code;
-    protected float $_total;
-    protected array $_success;
+
+    protected string $_chain_uid;
+
+    protected string $_status;
+
+    protected int $_currency_id;
+
+    protected float $_amount_payment;
+
+    protected float $_amount;
+
+    protected float $_commission;
 
     /**
      * @param ResponseDto $response
@@ -21,54 +29,96 @@ class PaymentDto extends BaseResponseDto
     public function parseApiResponse(ResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        $this->_chainUid = $decodedResponse['chain_uid'];
-        $this->_code = $decodedResponse['code'];
-        $this->_total = $decodedResponse['total'];
-        $this->_success = $decodedResponse['success'];
+        $this->_uid = $decodedResponse['uid'];
+        $this->_chain_uid = $decodedResponse['chain_uid'];
+        $this->_status = $decodedResponse['status'];
+        $this->_currency_id = $decodedResponse['currency_id'];
+        $this->_amount_payment = $decodedResponse['amount_payment'];
+        $this->_amount = $decodedResponse['amount'];
+        $this->_commission = $decodedResponse['commission'];
     }
 
     /**
-     * UID платежа
-     * @return int
+     * @param string $uid
+     * @param string $chain_uid
+     * @param string $status
+     * @param int $currency_id
+     * @param float $amount_payment
+     * @param float $amount
+     * @param float $commission
+     * @return void
      */
-    public function getUid(): int
+    public function fill(
+        string $uid,
+        string $chain_uid,
+        string $status,
+        int $currency_id,
+        float $amount_payment,
+        float $amount,
+        float $commission
+    ): void {
+        $this->_uid = $uid;
+        $this->_chain_uid = $chain_uid;
+        $this->_status = $status;
+        $this->_currency_id = $currency_id;
+        $this->_amount_payment = $amount_payment;
+        $this->_amount = $amount;
+        $this->_commission = $commission;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUid(): string
     {
         return $this->_uid;
     }
 
     /**
-     * UID цепочки платежей
      * @return string
      */
     public function getChainUid(): string
     {
-        return $this->_chainUid;
+        return $this->_chain_uid;
     }
 
     /**
-     * Код платежа (промежуточный статус платежа)
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->_status;
+    }
+
+    /**
      * @return int
      */
-    public function getCode(): int
+    public function getCurrencyId(): int
     {
-        return $this->_code;
+        return $this->_currency_id;
     }
 
     /**
-     * Общая сумма платежа
      * @return float
      */
-    public function getTotal(): float
+    public function getAmountPayment(): float
     {
-        return $this->_total;
+        return $this->_amount_payment;
     }
 
     /**
-     * Список успешно созданных платежей
-     * @return array
+     * @return float
      */
-    public function getSuccessPaymentList(): array
+    public function getAmount(): float
     {
-        return $this->_success;
+        return $this->_amount;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCommission(): float
+    {
+        return $this->_commission;
     }
 }

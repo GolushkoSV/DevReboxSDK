@@ -5,9 +5,9 @@ namespace RBX\response\dto\payment;
 use RBX\response\dto\BaseResponseDto;
 use RBX\response\dto\ResponseDto;
 
-class CheckPaymentDto extends BaseResponseDto
+class CryptoAddressDto extends BaseResponseDto
 {
-    protected string $_statusPayment;
+    protected string $crypto_address;
 
     /**
      * @param ResponseDto $response
@@ -16,14 +16,6 @@ class CheckPaymentDto extends BaseResponseDto
      */
     public function parseApiResponse(ResponseDto $response): void
     {
-        $this->_statusPayment = $this->decodeResponse($response);
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatusPayment(): string
-    {
-        return $this->_statusPayment;
+        $this->crypto_address = $this->decodeResponse($response);
     }
 }
