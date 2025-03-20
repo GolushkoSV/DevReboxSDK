@@ -27,7 +27,7 @@ class PaymentInCollection extends BaseRequest
         $response = $this->execute(
             self::PATH_PAYMENT_IN_CRYPTO_ADDRESS,
             'GET',
-            ['method_id' => $methodId]
+            ['methodId' => $methodId]
         );
 
         $result = new CryptoAddressDto();
@@ -47,7 +47,7 @@ class PaymentInCollection extends BaseRequest
         $response = $this->execute(
             self::PATH_METHOD_LIST,
             'GET',
-            ['currency_id' => $currencyId]
+            ['currencyId' => $currencyId]
         );
 
         $result = new MethodListDto();

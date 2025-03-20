@@ -22,7 +22,12 @@ class PaymentOutCollection extends BaseRequest
      */
     public function getMethodList(int $currencyId): MethodListDto
     {
-        $response = $this->execute(self::PATH_METHOD_LIST, 'GET', ['currencyId' => $currencyId]);
+        $response = $this->execute(
+            self::PATH_METHOD_LIST,
+            'GET',
+            ['currencyId' => $currencyId]
+        );
+
         $result = new MethodListDto();
         $result->parseApiResponse($response);
 
@@ -61,7 +66,12 @@ class PaymentOutCollection extends BaseRequest
      */
     public function getPaymentInfo(string $uid): PaymentDto
     {
-        $response = $this->execute(self::PATH_PAYMENT_INFO, 'GET', ['uid' => $uid]);
+        $response = $this->execute(
+            self::PATH_PAYMENT_INFO,
+            'GET',
+            ['uid' => $uid]
+        );
+
         $result = new PaymentDto();
         $result->parseApiResponse($response);
 
@@ -75,7 +85,12 @@ class PaymentOutCollection extends BaseRequest
      */
     public function getChainPayment(string $chainUid): ChainPaymentDto
     {
-        $response = $this->execute(self::PATH_CHAIN_PAYMENT, 'GET', ['chainUid' => $chainUid]);
+        $response = $this->execute(
+            self::PATH_CHAIN_PAYMENT,
+            'GET',
+            ['chainUid' => $chainUid]
+        );
+
         $result = new ChainPaymentDto();
         $result->parseApiResponse($response);
 
