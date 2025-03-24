@@ -14,7 +14,7 @@ class ReferenceCollection extends BaseRequest
      */
     public function getCurrencyList(): CurrencyListRBXDto
     {
-        $response = $this->execute(self::PATH_CURRENCY_LIST, 'GET');
+        $response = $this->execute(self::PATH_CURRENCY_LIST, self::METHOD_GET);
         $result = new CurrencyListRBXDto();
         $result->parseApiResponse($response);
 

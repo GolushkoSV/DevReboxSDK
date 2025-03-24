@@ -26,7 +26,7 @@ class PaymentInCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_PAYMENT_IN_CRYPTO_ADDRESS,
-            'GET',
+            self::METHOD_GET,
             ['methodId' => $methodId]
         );
 
@@ -46,7 +46,7 @@ class PaymentInCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_METHOD_LIST,
-            'GET',
+            self::METHOD_GET,
             ['currencyId' => $currencyId]
         );
 
@@ -66,7 +66,7 @@ class PaymentInCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_PAYMENT_INFO,
-            'GET',
+            self::METHOD_GET,
             ['uid' => $uid]
         );
 

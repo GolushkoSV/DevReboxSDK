@@ -17,7 +17,7 @@ class ClientCollection extends BaseRequest
      */
     public function getBalance(int $currencyId): BalanceRBXDto
     {
-        $response = $this->execute(self::PATH_BALANCE, 'GET', ['currencyId' => $currencyId]);
+        $response = $this->execute(self::PATH_BALANCE, self::METHOD_GET, ['currencyId' => $currencyId]);
         $result = new BalanceRBXDto();
         $result->parseApiResponse($response);
 
@@ -30,7 +30,7 @@ class ClientCollection extends BaseRequest
      */
     public function getWalletList(): WalletListRBXDto
     {
-        $response = $this->execute(self::PATH_WALLET_LIST, 'GET');
+        $response = $this->execute(self::PATH_WALLET_LIST, self::METHOD_GET);
         $result = new WalletListRBXDto();
         $result->parseApiResponse($response);
 

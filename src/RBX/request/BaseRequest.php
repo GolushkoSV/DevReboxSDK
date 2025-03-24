@@ -8,6 +8,10 @@ use RBX\client\CurlClient;
 
 class BaseRequest
 {
+    const
+        METHOD_GET = 'GET',
+        METHOD_POST = 'POST';
+
     protected $host = 'http://api-public.rebox.local';
 
     private string $serial;

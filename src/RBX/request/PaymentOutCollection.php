@@ -26,7 +26,7 @@ class PaymentOutCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_METHOD_LIST,
-            'GET',
+            self::METHOD_GET,
             ['currencyId' => $currencyId]
         );
 
@@ -47,7 +47,7 @@ class PaymentOutCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_PAYMENT,
-            'POST',
+            self::METHOD_POST,
             ['methodId' => $methodId],
             [
                 'amount_payment' => $amount,
@@ -70,7 +70,7 @@ class PaymentOutCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_PAYMENT_FIELDS,
-            'GET',
+            self::METHOD_GET,
             ['methodId' => $methodId]
         );
 
@@ -89,7 +89,7 @@ class PaymentOutCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_PAYMENT_INFO,
-            'GET',
+            self::METHOD_GET,
             ['uid' => $uid]
         );
 
@@ -108,7 +108,7 @@ class PaymentOutCollection extends BaseRequest
     {
         $response = $this->execute(
             self::PATH_CHAIN_PAYMENT,
-            'GET',
+            self::METHOD_GET,
             ['chainUid' => $chainUid]
         );
 
