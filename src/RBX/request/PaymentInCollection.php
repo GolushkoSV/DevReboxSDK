@@ -2,9 +2,9 @@
 
 namespace RBX\request;
 
-use RBX\response\dto\payment\CryptoAddressDto;
-use RBX\response\dto\payment\MethodListDto;
-use RBX\response\dto\payment\PaymentDto;
+use RBX\response\dto\payment\CryptoAddressRBXDto;
+use RBX\response\dto\payment\MethodListRBXDto;
+use RBX\response\dto\payment\PaymentRBXDto;
 
 /**
  * Коллекция методов входящих платежей
@@ -19,10 +19,10 @@ class PaymentInCollection extends BaseRequest
     /**
      * Получение крипто адреса
      * @param int $methodId
-     * @return CryptoAddressDto
+     * @return CryptoAddressRBXDto
      * @throws \Exception
      */
-    public function getCryptoAddress(int $methodId): CryptoAddressDto
+    public function getCryptoAddress(int $methodId): CryptoAddressRBXDto
     {
         $response = $this->execute(
             self::PATH_PAYMENT_IN_CRYPTO_ADDRESS,
@@ -30,7 +30,7 @@ class PaymentInCollection extends BaseRequest
             ['methodId' => $methodId]
         );
 
-        $result = new CryptoAddressDto();
+        $result = new CryptoAddressRBXDto();
         $result->parseApiResponse($response);
 
         return $result;
@@ -39,10 +39,10 @@ class PaymentInCollection extends BaseRequest
     /**
      * Получение доступных методов платежа
      * @param $currencyId
-     * @return MethodListDto
+     * @return MethodListRBXDto
      * @throws \Exception
      */
-    public function getMethodList($currencyId): MethodListDto
+    public function getMethodList($currencyId): MethodListRBXDto
     {
         $response = $this->execute(
             self::PATH_METHOD_LIST,
@@ -50,7 +50,7 @@ class PaymentInCollection extends BaseRequest
             ['currencyId' => $currencyId]
         );
 
-        $result = new MethodListDto();
+        $result = new MethodListRBXDto();
         $result->parseApiResponse($response);
 
         return $result;
@@ -59,10 +59,10 @@ class PaymentInCollection extends BaseRequest
     /**
      * Получение информации по платежу
      * @param string $uid
-     * @return PaymentDto
+     * @return PaymentRBXDto
      * @throws \Exception
      */
-    public function getPaymentInfo(string $uid): PaymentDto
+    public function getPaymentInfo(string $uid): PaymentRBXDto
     {
         $response = $this->execute(
             self::PATH_PAYMENT_INFO,
@@ -70,7 +70,7 @@ class PaymentInCollection extends BaseRequest
             ['uid' => $uid]
         );
 
-        $result = new PaymentDto();
+        $result = new PaymentRBXDto();
         $result->parseApiResponse($response);
 
         return $result;

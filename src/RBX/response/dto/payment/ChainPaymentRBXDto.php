@@ -2,23 +2,23 @@
 
 namespace RBX\response\dto\payment;
 
-use RBX\response\dto\BaseResponseDto;
-use RBX\response\dto\ResponseDto;
+use RBX\response\dto\BaseResponseRBXDto;
+use RBX\response\dto\CurlResponseDto;
 
-class ChainPaymentDto extends BaseResponseDto
+class ChainPaymentRBXDto extends BaseResponseRBXDto
 {
-    /** @var PaymentDto[] $_payments */
+    /** @var PaymentRBXDto[] $_payments */
     protected array $_payments;
 
     /** @var array $total */
     protected array $total;
 
     /**
-     * @param ResponseDto $response
+     * @param CurlResponseDto $response
      * @return void
      * @throws \Exception
      */
-    public function parseApiResponse(ResponseDto $response): void
+    public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
         $this->total = [
@@ -28,7 +28,7 @@ class ChainPaymentDto extends BaseResponseDto
         ];
 
         foreach ($decodedResponse['payments'] as $payment) {
-            $paymentDto = new PaymentDto();
+            $paymentDto = new PaymentRBXDto();
             $paymentDto->fill(
                 $payment['uid'],
                 $payment['chain_uid'],

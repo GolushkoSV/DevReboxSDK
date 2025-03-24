@@ -3,25 +3,25 @@
 namespace RBX\response\dto;
 
 use RBX\exceptions\InternalServerException;
+use RBX\exceptions\ValidationException;
 use RBX\exceptions\NotFoundException;
 use RBX\exceptions\SignAuthException;
 use RBX\exceptions\UserException;
-use RBX\exceptions\ValidationException;
 
-abstract class BaseResponseDto
+abstract class BaseResponseRBXDto
 {
     /**
-     * @param ResponseDto $response
+     * @param CurlResponseDto $response
      * @return void
      */
-    abstract public function parseApiResponse(ResponseDto $response): void;
+    abstract public function parseApiResponse(CurlResponseDto $response): void;
 
     /**
-     * @param ResponseDto $response
+     * @param CurlResponseDto $response
      * @return mixed
      * @throws \Exception
      */
-    public function decodeResponse(ResponseDto $response)
+    public function decodeResponse(CurlResponseDto $response)
     {
         $decodedResponse = json_decode($response->getBody(), true);
         if ($decodedResponse == null) {

@@ -2,19 +2,19 @@
 
 namespace RBX\response\dto\payment;
 
-use RBX\response\dto\BaseResponseDto;
-use RBX\response\dto\ResponseDto;
+use RBX\response\dto\BaseResponseRBXDto;
+use RBX\response\dto\CurlResponseDto;
 
-class MethodListDto extends BaseResponseDto
+class MethodListRBXDto extends BaseResponseRBXDto
 {
     protected array $list = [];
 
     /**
-     * @param ResponseDto $response
+     * @param CurlResponseDto $response
      * @return void
      * @throws \Exception
      */
-    public function parseApiResponse(ResponseDto $response): void
+    public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
         foreach ($decodedResponse as $item) {

@@ -3,7 +3,7 @@
 namespace RBX\client;
 
 use RBX\helpers\RawHeaderParser;
-use RBX\response\dto\ResponseDto;
+use RBX\response\dto\CurlResponseDto;
 
 /**
  * Класс клиента Curl запросов
@@ -39,7 +39,7 @@ class CurlClient
      * @param string|null $httpBody Тело запроса
      * @param array $headers Массив заголовков запроса
      *
-     * @return ResponseDto
+     * @return CurlResponseDto
      * @throws \Exception
      */
     public function call(string $path, string $method, array $queryParams = [], $httpBody = null, array $headers = [])
@@ -52,7 +52,7 @@ class CurlClient
 
         $this->closeCurlConnection();
 
-        return new ResponseDto(
+        return new CurlResponseDto(
             $responseInfo['http_code'],
             $httpHeaders,
             $httpBody,

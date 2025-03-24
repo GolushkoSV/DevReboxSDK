@@ -2,8 +2,8 @@
 
 namespace RBX\request;
 
-use RBX\response\dto\client\BalanceDto;
-use RBX\response\dto\client\WalletListDto;
+use RBX\response\dto\client\BalanceRBXDto;
+use RBX\response\dto\client\WalletListRBXDto;
 
 class ClientCollection extends BaseRequest
 {
@@ -12,26 +12,26 @@ class ClientCollection extends BaseRequest
 
     /**
      * @param int $currencyId
-     * @return BalanceDto
+     * @return BalanceRBXDto
      * @throws \Exception
      */
-    public function getBalance(int $currencyId): BalanceDto
+    public function getBalance(int $currencyId): BalanceRBXDto
     {
         $response = $this->execute(self::PATH_BALANCE, 'GET', ['currencyId' => $currencyId]);
-        $result = new BalanceDto();
+        $result = new BalanceRBXDto();
         $result->parseApiResponse($response);
 
         return $result;
     }
 
     /**
-     * @return WalletListDto
+     * @return WalletListRBXDto
      * @throws \Exception
      */
-    public function getWalletList(): WalletListDto
+    public function getWalletList(): WalletListRBXDto
     {
         $response = $this->execute(self::PATH_WALLET_LIST, 'GET');
-        $result = new WalletListDto();
+        $result = new WalletListRBXDto();
         $result->parseApiResponse($response);
 
         return $result;

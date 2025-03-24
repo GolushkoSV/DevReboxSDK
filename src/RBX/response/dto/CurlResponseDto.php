@@ -2,7 +2,7 @@
 
 namespace RBX\response\dto;
 
-class ResponseDto
+class CurlResponseDto
 {
     /**
      * HTTP код ответа
