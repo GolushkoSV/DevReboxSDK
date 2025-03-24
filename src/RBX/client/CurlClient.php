@@ -2,14 +2,9 @@
 
 namespace RBX\client;
 
-use RBX\helpers\RawHeaderParser;
 use RBX\response\dto\CurlResponseDto;
+use RBX\helpers\RawHeaderParser;
 
-/**
- * Класс клиента Curl запросов
- *
- * @package YooKassa
- */
 class CurlClient
 {
     private int $timeout = 80;
@@ -22,8 +17,6 @@ class CurlClient
     private $curl;
 
     /**
-     * @inheritdoc
-     *
      * @param string $path URL запроса
      * @param string $method HTTP метод
      * @param array $queryParams Массив GET параметров запроса
@@ -40,6 +33,8 @@ class CurlClient
         string $httpBody = null,
         array $headers = []
     ): CurlResponseDto {
+        $headers = array_merge($this->defaultHeaders, $headers);
+
         $url = $this->prepareUrl($path, $queryParams);
         $this->prepareCurl($method, $httpBody, $this->implodeHeaders($headers), $url);
 
