@@ -12,22 +12,13 @@ use RBX\response\dto\CurlResponseDto;
  */
 class CurlClient
 {
-    /** @var array Настройки клиента */
-    private $config;
+    private int $timeout = 80;
+    private int $connectionTimeout = 30;
 
-
-    /** @var int Настройка параметра CURLOPT_TIMEOUT*/
-    private $timeout = 80;
-
-    /** @var int Настройка параметра CURLOPT_CONNECTTIMEOUT */
-    private $connectionTimeout = 30;
-
-    /** @var array Заголовки по умолчанию */
-    private $defaultHeaders = [
+    private array $defaultHeaders = [
         'Content-Type' => 'application/json',
     ];
 
-    /** @var resource Текущий ресурс для работы с curl */
     private $curl;
 
     /**
@@ -42,14 +33,17 @@ class CurlClient
      * @return CurlResponseDto
      * @throws \Exception
      */
-    public function call(string $path, string $method, array $queryParams = [], $httpBody = null, array $headers = [])
-    {
+    public function call(
+        string $path,
+        string $method,
+        array $queryParams = [],
+        string $httpBody = null,
+        array $headers = []
+    ): CurlResponseDto {
         $url = $this->prepareUrl($path, $queryParams);
-
         $this->prepareCurl($method, $httpBody, $this->implodeHeaders($headers), $url);
 
         list($httpHeaders, $httpBody, $responseInfo) = $this->sendRequest();
-
         $this->closeCurlConnection();
 
         return new CurlResponseDto(
@@ -67,7 +61,7 @@ class CurlClient
      *
      * @return bool
      */
-    public function setCurlOption($optionName, $optionValue)
+    protected function setCurlOption(string $optionName, $optionValue)
     {
         return curl_setopt($this->curl, $optionName, $optionValue);
     }
@@ -92,7 +86,7 @@ class CurlClient
     /**
      * Close connection
      */
-    public function closeCurlConnection()
+    protected function closeCurlConnection()
     {
         if ($this->curl !== null) {
             curl_close($this->curl);
@@ -103,7 +97,7 @@ class CurlClient
      * @return array
      * @throws \Exception
      */
-    public function sendRequest()
+    protected function sendRequest(): array
     {
         $response       = curl_exec($this->curl);
         $httpHeaderSize = curl_getinfo($this->curl, CURLINFO_HEADER_SIZE);
@@ -116,7 +110,7 @@ class CurlClient
             $this->handleCurlError($curlError, $curlErrno);
         }
 
-        return array($httpHeaders, $httpBody, $responseInfo);
+        return [$httpHeaders, $httpBody, $responseInfo];
     }
 
     /**
@@ -125,7 +119,7 @@ class CurlClient
      * @param string $method HTTP метод
      * @param string $httpBody Тело запроса
      */
-    public function setBody($method, $httpBody)
+    protected function setBody(string $method, string $httpBody)
     {
 
         $this->setCurlOption(CURLOPT_CUSTOMREQUEST, $method);
@@ -140,7 +134,7 @@ class CurlClient
      *
      * @throws \Exception
      */
-    private function handleCurlError($error, $errno)
+    private function handleCurlError(string $error, int $errno)
     {
         switch ($errno) {
             case CURLE_COULDNT_CONNECT:
@@ -161,18 +155,10 @@ class CurlClient
     }
 
     /**
-     * @return mixed
-     */
-    private function getUrl()
-    {
-        return 'http://api-public.rebox.local';
-    }
-
-    /**
      * @param array $headers
      * @return array
      */
-    private function implodeHeaders($headers)
+    private function implodeHeaders(array $headers): array
     {
         return array_map(function ($key, $value) {
             return $key . ':' . $value;
@@ -201,7 +187,7 @@ class CurlClient
      * @param string $url
      * @throws \Exception
      */
-    private function prepareCurl($method, $httpBody, $headers, $url)
+    private function prepareCurl(string $method, string $httpBody, array $headers, string $url)
     {
         $this->initCurl();
 

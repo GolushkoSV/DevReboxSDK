@@ -8,7 +8,7 @@ use RBX\client\CurlClient;
 
 class BaseRequest
 {
-    protected const API_HOST = 'http://api-public.rebox.local';
+    protected $host = 'http://api-public.rebox.local';
 
     private string $serial;
 
@@ -25,16 +25,21 @@ class BaseRequest
     }
 
     /**
-     * @param $path
-     * @param $method
+     * @param string $path
+     * @param string $method
      * @param array $query
      * @param array $data
      * @param array $headers
      * @return CurlResponseDto
      * @throws \Exception
      */
-    public function execute($path, $method, array $query = [], array $data = [], array $headers = []): CurlResponseDto
-    {
+    public function execute(
+        string $path,
+        string $method,
+        array $query = [],
+        array $data = [],
+        array $headers = []
+    ): CurlResponseDto {
         $signService = new SignService($this->secretKey);
         $headers = array_merge($headers, [
             'Header-Serial' => $this->serial,
@@ -43,6 +48,6 @@ class BaseRequest
 
         $curl = new CurlClient();
 
-        return $curl->call(self::API_HOST . '/'. $path, $method, $query, json_encode($data), $headers);
+        return $curl->call($this->host .'/'. $path, $method, $query, json_encode($data), $headers);
     }
 }

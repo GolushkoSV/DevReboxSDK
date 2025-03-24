@@ -2,7 +2,7 @@
   "name": "rbx/rbx-php-sdk",
   "description": "PHP SDK платежной системы Rebox",
   "license": "BSD-3",
-  "keywords": ["rbx", "rebox", "payments", "api", "sdk"],
+  "keywords": ["rbx", "rebox", "payments", "api", "sdk", "php-sdk"],
   "type": "library",
   "authors": [
     {
@@ -15,8 +15,7 @@
     "ext-openssl": "*",
     "ext-curl": "*",
     "ext-json": "*",
-    "ext-mbstring": "*",
-    "psr/log": "^1.0"
+    "ext-mbstring": "*"
   },
   "autoload": {
     "psr-4": { "RBX\\": "src/RBX" }
