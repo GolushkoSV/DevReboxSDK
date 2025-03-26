@@ -12,7 +12,7 @@ class BaseRequest
         METHOD_GET = 'GET',
         METHOD_POST = 'POST';
 
-    protected $host = 'http://api-public.rebox.local';
+    protected string $host = 'http://api-public.rebox.local';
 
     private string $serial;
 
@@ -37,7 +37,7 @@ class BaseRequest
      * @return CurlResponseDto
      * @throws \Exception
      */
-    public function execute(
+    protected function execute(
         string $path,
         string $method,
         array $query = [],

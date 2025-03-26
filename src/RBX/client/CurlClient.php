@@ -56,26 +56,24 @@ class CurlClient
      *
      * @return bool
      */
-    protected function setCurlOption(string $optionName, $optionValue)
+    protected function setCurlOption(string $optionName, $optionValue): bool
     {
         return curl_setopt($this->curl, $optionName, $optionValue);
     }
 
     /**
-     * @return false|resource
+     * @return void
      * @throws \Exception
      */
-    private function initCurl()
+    private function initCurl(): void
     {
         if (!extension_loaded('curl')) {
-            throw new \Exception();
+            throw new \Exception('Needed curl extension');
         }
 
         if (!$this->curl) {
             $this->curl = curl_init();
         }
-
-        return $this->curl;
     }
 
     /**
@@ -116,7 +114,6 @@ class CurlClient
      */
     protected function setBody(string $method, string $httpBody)
     {
-
         $this->setCurlOption(CURLOPT_CUSTOMREQUEST, $method);
         if(!empty($httpBody)) {
             $this->setCurlOption(CURLOPT_POSTFIELDS, $httpBody);
@@ -161,12 +158,12 @@ class CurlClient
     }
 
     /**
-     * @param $url
+     * @param string $url
      * @param array $queryParams
      *
      * @return string
      */
-    private function prepareUrl($url, array $queryParams = []): string
+    private function prepareUrl(string $url, array $queryParams = []): string
     {
         if (!empty($queryParams)) {
             $url = $url . '?' . http_build_query($queryParams);

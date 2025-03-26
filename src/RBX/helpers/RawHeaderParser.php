@@ -5,24 +5,30 @@ namespace RBX\helpers;
 
 class RawHeaderParser
 {
-    public static function parse($rawHeaders)
+    public static function parse($rawHeaders): array
     {
-        $headers = array();
+        $headers = [];
         $key = '';
 
         foreach (explode("\n", $rawHeaders) as $headerRow) {
             if (trim($headerRow) === '') {
                 break;
             }
-            $headerArray = explode(':', $headerRow, 2);
 
+            $headerArray = explode(':', $headerRow, 2);
             if (isset($headerArray[1])) {
                 if (!isset($headers[$headerArray[0]])) {
                     $headers[trim($headerArray[0])] = trim($headerArray[1]);
                 } elseif (is_array($headers[$headerArray[0]])) {
-                    $headers[trim($headerArray[0])] = array_merge($headers[trim($headerArray[0])], array(trim($headerArray[1])));
+                    $headers[trim($headerArray[0])] = array_merge(
+                        $headers[trim($headerArray[0])],
+                        [trim($headerArray[1])]
+                    );
                 } else {
-                    $headers[trim($headerArray[0])] = array_merge(array($headers[trim($headerArray[0])]), array(trim($headerArray[1])));
+                    $headers[trim($headerArray[0])] = array_merge(
+                        [$headers[trim($headerArray[0])]],
+                        [trim($headerArray[1])]
+                    );
                 }
 
                 $key = $headerArray[0];
