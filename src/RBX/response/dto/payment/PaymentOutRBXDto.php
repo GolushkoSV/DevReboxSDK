@@ -7,11 +7,29 @@ use RBX\response\dto\CurlResponseDto;
 
 class PaymentOutRBXDto extends BaseResponseRBXDto
 {
-    protected string $_uid;
-    protected string $_chainUid;
-    protected int $_code;
-    protected float $_total;
-    protected array $_success;
+    /**
+     * UID цепочки платежей
+     * @var string $chain_uid
+     */
+    protected string $chain_uid;
+
+    /**
+     * Код статус платежа
+     * @var int $code
+     */
+    protected int $code;
+
+    /**
+     * Кол-во платежей
+     * @var float $total
+     */
+    protected float $total;
+
+    /**
+     * Список успешно созданных платежей
+     * @var array $success
+     */
+    protected array $success;
 
     /**
      * @param CurlResponseDto $response
@@ -21,19 +39,10 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
     public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        $this->_chainUid = $decodedResponse['chain_uid'];
-        $this->_code = $decodedResponse['code'];
-        $this->_total = $decodedResponse['total'];
-        $this->_success = $decodedResponse['success'];
-    }
-
-    /**
-     * UID платежа
-     * @return int
-     */
-    public function getUid(): int
-    {
-        return $this->_uid;
+        $this->chain_uid = $decodedResponse['chain_uid'];
+        $this->code = $decodedResponse['code'];
+        $this->total = $decodedResponse['total'];
+        $this->success = $decodedResponse['success'];
     }
 
     /**
@@ -42,7 +51,7 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      */
     public function getChainUid(): string
     {
-        return $this->_chainUid;
+        return $this->chain_uid;
     }
 
     /**
@@ -51,7 +60,7 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      */
     public function getCode(): int
     {
-        return $this->_code;
+        return $this->code;
     }
 
     /**
@@ -60,7 +69,7 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      */
     public function getTotal(): float
     {
-        return $this->_total;
+        return $this->total;
     }
 
     /**
@@ -69,6 +78,6 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      */
     public function getSuccessPaymentList(): array
     {
-        return $this->_success;
+        return $this->success;
     }
 }

@@ -7,7 +7,8 @@ use RBX\response\dto\CurlResponseDto;
 
 class PaymentFieldsRBXDto extends BaseResponseRBXDto
 {
-    protected array $_list;
+    /** @var PaymentFieldRBXDto[] $list */
+    protected array $list = [];
 
     /**
      * @param CurlResponseDto $response
@@ -17,47 +18,11 @@ class PaymentFieldsRBXDto extends BaseResponseRBXDto
     public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse as $paymentField) {
-            $this->addPaymentField(
-                $paymentField['code'],
-                $paymentField['title'],
-                $paymentField['label'],
-                $paymentField['mask'],
-                $paymentField['regexp'],
-                $paymentField['minLen'],
-                $paymentField['maxLen'],
-            );
+        foreach ($decodedResponse as $attributes) {
+            $paymentFieldDto = new PaymentFieldRBXDto();
+            $paymentFieldDto->setAttributes($attributes);
+            $this->list[] = $paymentFieldDto;
         }
-    }
-    
-    /**
-     * @param string $code
-     * @param string $title
-     * @param string $label
-     * @param string $mask
-     * @param string $regexp
-     * @param int $minLen
-     * @param int $maxLen
-     * @return void
-     */
-    protected function addPaymentField(
-        string $code,
-        string $title,
-        string $label,
-        string $mask,
-        string $regexp,
-        int    $minLen,
-        int    $maxLen
-    ): void {
-        $this->_list [] = [
-            'code' => $code,
-            'title' => $title,
-            'label' => $label,
-            'mask' => $mask,
-            'regexp' => $regexp,
-            'minLen' => $minLen,
-            'maxLen' => $maxLen,
-        ];
     }
 
     /**
@@ -65,6 +30,6 @@ class PaymentFieldsRBXDto extends BaseResponseRBXDto
      */
     public function getList(): array
     {
-        return $this->_list;
+        return $this->list;
     }
 }

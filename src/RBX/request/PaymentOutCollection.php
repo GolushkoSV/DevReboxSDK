@@ -3,7 +3,7 @@
 namespace RBX\request;
 
 use RBX\response\dto\payment\ChainPaymentRBXDto;
-use RBX\response\dto\payment\MethodListRBXDto;
+use RBX\response\dto\payment\method\MethodListRBXDto;
 use RBX\response\dto\payment\PaymentFieldsRBXDto;
 use RBX\response\dto\payment\PaymentOutRBXDto;
 use RBX\response\dto\payment\PaymentRBXDto;

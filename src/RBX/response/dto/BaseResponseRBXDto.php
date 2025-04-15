@@ -8,7 +8,7 @@ use RBX\exceptions\NotFoundException;
 use RBX\exceptions\SignAuthException;
 use RBX\exceptions\UserException;
 
-abstract class BaseResponseRBXDto
+abstract class BaseResponseRBXDto extends BaseDto
 {
     /**
      * @param CurlResponseDto $response

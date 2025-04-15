@@ -12,18 +12,20 @@ class BaseRequest
         METHOD_GET = 'GET',
         METHOD_POST = 'POST';
 
-    protected string $host = 'http://api-public.rebox.local';
+    protected string $host;
 
     private string $serial;
 
     private string $secretKey;
 
     /**
+     * @param string $host
      * @param string $serial
      * @param string $secretKey
      */
-    public function __construct(string $serial, string $secretKey)
+    public function __construct(string $host, string $serial, string $secretKey)
     {
+        $this->host = $host;
         $this->serial = $serial;
         $this->secretKey = $secretKey;
     }

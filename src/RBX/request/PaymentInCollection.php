@@ -3,7 +3,7 @@
 namespace RBX\request;
 
 use RBX\response\dto\payment\CryptoAddressRBXDto;
-use RBX\response\dto\payment\MethodListRBXDto;
+use RBX\response\dto\payment\method\MethodListRBXDto;
 use RBX\response\dto\payment\PaymentRBXDto;
 
 /**
@@ -39,7 +39,7 @@ class PaymentInCollection extends BaseRequest
     /**
      * Получение доступных методов платежа
      * @param $currencyId
-     * @return MethodListRBXDto
+     * @return \RBX\response\dto\payment\method\MethodListRBXDto
      * @throws \Exception
      */
     public function getMethodList($currencyId): MethodListRBXDto

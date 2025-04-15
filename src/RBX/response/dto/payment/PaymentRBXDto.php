@@ -7,19 +7,47 @@ use RBX\response\dto\CurlResponseDto;
 
 class PaymentRBXDto extends BaseResponseRBXDto
 {
-    protected string $_uid;
+    /**
+     * UID платежа
+     * @var string $uid
+     */
+    protected string $uid;
 
-    protected string $_chain_uid;
+    /**
+     * UID цепочки платежа
+     * @var string $chain_uid
+     */
+    protected string $chain_uid;
 
-    protected string $_status;
+    /**
+     * Статус платежа
+     * @var string $status
+     */
+    protected string $status;
 
-    protected int $_currency_id;
+    /**
+     * ID валюты
+     * @var int $currency_id
+     */
+    protected int $currency_id;
 
-    protected float $_amount_payment;
+    /**
+     * Сумма платежа
+     * @var float $amount_payment
+     */
+    protected float $amount_payment;
 
-    protected float $_amount;
+    /**
+     * Конечная сумма с учетом комиссий
+     * @var float $amount
+     */
+    protected float $amount;
 
-    protected float $_commission;
+    /**
+     * Комиссия
+     * @var float $commission
+     */
+    protected float $commission;
 
     /**
      * @param CurlResponseDto $response
@@ -29,41 +57,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
     public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        $this->_uid = $decodedResponse['uid'];
-        $this->_chain_uid = $decodedResponse['chain_uid'];
-        $this->_status = $decodedResponse['status'];
-        $this->_currency_id = $decodedResponse['currency_id'];
-        $this->_amount_payment = $decodedResponse['amount_payment'];
-        $this->_amount = $decodedResponse['amount'];
-        $this->_commission = $decodedResponse['commission'];
-    }
-
-    /**
-     * @param string $uid
-     * @param string $chain_uid
-     * @param string $status
-     * @param int $currency_id
-     * @param float $amount_payment
-     * @param float $amount
-     * @param float $commission
-     * @return void
-     */
-    public function fill(
-        string $uid,
-        string $chain_uid,
-        string $status,
-        int $currency_id,
-        float $amount_payment,
-        float $amount,
-        float $commission
-    ): void {
-        $this->_uid = $uid;
-        $this->_chain_uid = $chain_uid;
-        $this->_status = $status;
-        $this->_currency_id = $currency_id;
-        $this->_amount_payment = $amount_payment;
-        $this->_amount = $amount;
-        $this->_commission = $commission;
+        $this->setAttributes($decodedResponse);
     }
 
     /**
@@ -71,7 +65,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getUid(): string
     {
-        return $this->_uid;
+        return $this->uid;
     }
 
     /**
@@ -79,7 +73,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getChainUid(): string
     {
-        return $this->_chain_uid;
+        return $this->chain_uid;
     }
 
     /**
@@ -87,7 +81,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getStatus(): string
     {
-        return $this->_status;
+        return $this->status;
     }
 
     /**
@@ -95,7 +89,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getCurrencyId(): int
     {
-        return $this->_currency_id;
+        return $this->currency_id;
     }
 
     /**
@@ -103,7 +97,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getAmountPayment(): float
     {
-        return $this->_amount_payment;
+        return $this->amount_payment;
     }
 
     /**
@@ -111,7 +105,7 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getAmount(): float
     {
-        return $this->_amount;
+        return $this->amount;
     }
 
     /**
@@ -119,6 +113,6 @@ class PaymentRBXDto extends BaseResponseRBXDto
      */
     public function getCommission(): float
     {
-        return $this->_commission;
+        return $this->commission;
     }
 }

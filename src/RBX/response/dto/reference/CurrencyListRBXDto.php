@@ -7,6 +7,7 @@ use RBX\response\dto\CurlResponseDto;
 
 class CurrencyListRBXDto extends BaseResponseRBXDto
 {
+    /** @var CurrencyRBXDto[] $list */
     protected array $list = [];
 
     /**
@@ -18,11 +19,9 @@ class CurrencyListRBXDto extends BaseResponseRBXDto
     {
         $decodedResponse = $this->decodeResponse($response);
         foreach ($decodedResponse as $currency) {
-            $this->list[] = [
-                'id' => $currency['id'],
-                'code' => $currency['code'],
-                'title' => $currency['title'],
-            ];
+            $currencyDto = new CurrencyRBXDto();
+            $currencyDto->setAttributes($currency);
+            $this->list[] = $currencyDto;
         }
     }
 

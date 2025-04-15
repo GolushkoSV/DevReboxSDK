@@ -9,6 +9,7 @@ use RBX\request\ClientCollection;
 
 class RBXApiClient
 {
+    private string $host = 'http://api-public.rebox.local';
     private string $_serial;
     private string $_secretKey;
 
@@ -60,6 +61,6 @@ class RBXApiClient
      */
     private function createCollection(string $collectionClass): object
     {
-        return new $collectionClass($this->_serial, $this->_secretKey);
+        return new $collectionClass($this->host, $this->_serial, $this->_secretKey);
     }
 }

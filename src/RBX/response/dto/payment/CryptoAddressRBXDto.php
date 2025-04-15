@@ -7,6 +7,10 @@ use RBX\response\dto\CurlResponseDto;
 
 class CryptoAddressRBXDto extends BaseResponseRBXDto
 {
+    /**
+     * Адрес криптовалюты
+     * @var string $crypto_address
+     */
     protected string $crypto_address;
 
     /**

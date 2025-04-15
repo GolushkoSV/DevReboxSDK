@@ -1,12 +1,15 @@
 <?php
 
-namespace RBX\response\dto\payment;
+namespace RBX\response\dto\payment\method;
 
 use RBX\response\dto\BaseResponseRBXDto;
 use RBX\response\dto\CurlResponseDto;
 
 class MethodListRBXDto extends BaseResponseRBXDto
 {
+    /**
+     * @var MethodRBXDto[] $list
+     */
     protected array $list = [];
 
     /**
@@ -17,17 +20,10 @@ class MethodListRBXDto extends BaseResponseRBXDto
     public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        foreach ($decodedResponse as $item) {
-            $this->list [] = [
-                "id" => $item["id"],
-                "code" => $item["code"],
-                "name" => $item["name"],
-                "description" => $item["description"],
-                "currency_id" => $item["currency_id"],
-                "min_amount" => $item["min_amount"],
-                "max_amount" => $item["max_amount"],
-                "payment_fields" => $item["payment_fields"],
-            ];
+        foreach ($decodedResponse as $attributes) {
+            $methodDto = new MethodRBXDto();
+            $methodDto->setAttributes($attributes);
+            $this->list [] = $methodDto;
         }
     }
 

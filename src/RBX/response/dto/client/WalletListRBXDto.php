@@ -7,6 +7,7 @@ use RBX\response\dto\CurlResponseDto;
 
 class WalletListRBXDto extends BaseResponseRBXDto
 {
+    /** @var WalletRBXDto[] $list */
     protected array $list;
 
     /**
@@ -29,10 +30,10 @@ class WalletListRBXDto extends BaseResponseRBXDto
      */
     protected function addWallet(int $currencyId, float $amount)
     {
-        $this->list[] = [
-            'currency_id' => $currencyId,
-            'amount' => $amount
-        ];
+        $walletDto = new WalletRBXDto();
+        $walletDto->currency_id = $currencyId;
+        $walletDto->amount = $amount;
+        $this->list []= $walletDto;
     }
 
     /**
