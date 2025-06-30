@@ -9,7 +9,7 @@ use RBX\request\ClientCollection;
 
 class RBXApiClient
 {
-    private string $host = 'http://api-public.rebox.local';
+    private string $host = 'https://api.rebox.pro';
     private string $_serial;
     private string $_secretKey;
 
