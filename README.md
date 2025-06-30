@@ -12,13 +12,13 @@ $ composer require rbx/rbx-php-sdk
 
 ## Документация
 
-**Описание всех доступных API методов к платежной системе RBX**: http://api-public.rebox.local/doc
+**Описание всех доступных API методов к платежной системе RBX**: https://api.rebox.pro/doc
 
 
 ## Авторизация
 
 **Для использования SDK требуется `SERIAL` и `SECRET_KEY`.**<br>
-**Данные API-ключи вы можете получить в своем личном кабинете:** https://rebox.frontend-dev.freematiq.com
+**Данные API-ключи вы можете получить в своем личном кабинете:** https://rebox.pro
 
 ```php
 <?php
