@@ -113,7 +113,7 @@ $paymentOutDto = $apiClientRBX->paymentOut()->payment($methodId, $amount, $payme
 
 // Получение информации о цепочки платежей 
 $chainUid = 'fdsfoejr123'; // UID цепочки платежей
-$chainPaymentDto = $apiClientRBX->paymentOut()->getChainPayment($chainUid);
+$chainPaymentDto = $apiClientRBX->paymentOut()->getChainPaymentInfo($chainUid);
 
 // Получение информации об исходящем платеже
 $uid = 'efhsdf3294'; // UID/RNN входящего платежа

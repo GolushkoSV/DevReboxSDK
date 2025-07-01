@@ -8,7 +8,7 @@ use RBX\response\dto\CurlResponseDto;
 class ChainPaymentRBXDto extends BaseResponseRBXDto
 {
     /** @var PaymentRBXDto[] $_payments */
-    protected array $_payments;
+    protected array $payments;
 
     /** @var array $total */
     protected array $total;
@@ -29,17 +29,24 @@ class ChainPaymentRBXDto extends BaseResponseRBXDto
 
         foreach ($decodedResponse['payments'] as $payment) {
             $paymentDto = new PaymentRBXDto();
-            $paymentDto->fill(
-                $payment['uid'],
-                $payment['chain_uid'],
-                $payment['status'],
-                $payment['currency_id'],
-                $payment['amount_payment'],
-                $payment['amount'],
-                $payment['commission'],
-            );
-
-            $this->_payments [] = $payment;
+            $paymentDto->setAttributes($payment);
+            $this->payments [] = $paymentDto;
         }
+    }
+
+    /**
+     * @return PaymentRBXDto[]
+     */
+    public function getPayments(): array
+    {
+        return $this->payments;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTotal(): array
+    {
+        return $this->total;
     }
 }

@@ -11,7 +11,7 @@ abstract class BaseDto
     public function setAttributes(array $attributes)
     {
         foreach ($attributes as $property => $value) {
-            if (isset($this->$property)) {
+            if (property_exists($this, $property)) {
                 $this->$property = $value;
             }
         }

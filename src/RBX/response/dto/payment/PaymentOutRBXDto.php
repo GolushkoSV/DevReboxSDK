@@ -29,7 +29,30 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      * Список успешно созданных платежей
      * @var array $success
      */
-    protected array $success;
+    protected array $payments;
+
+    /**
+     * Общая сумма с учетом комиссии
+     * @var float $totalAmount
+     */
+    protected float $totalAmount;
+
+    /**
+     * Общая сумма платежа
+     * @var float $totalAmountPayment
+     */
+    protected float $totalAmountPayment;
+
+    /**
+     * Общая комиссия
+     * @var float $totalCommission
+     */
+    protected float $totalCommission;
+
+    /**
+     * @var string|null $error
+     */
+    protected ?string $error = null;
 
     /**
      * @param CurlResponseDto $response
@@ -39,10 +62,7 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
     public function parseApiResponse(CurlResponseDto $response): void
     {
         $decodedResponse = $this->decodeResponse($response);
-        $this->chain_uid = $decodedResponse['chain_uid'];
-        $this->code = $decodedResponse['code'];
-        $this->total = $decodedResponse['total'];
-        $this->success = $decodedResponse['success'];
+        $this->setAttributes($decodedResponse);
     }
 
     /**
@@ -76,8 +96,40 @@ class PaymentOutRBXDto extends BaseResponseRBXDto
      * Список успешно созданных платежей
      * @return array
      */
-    public function getSuccessPaymentList(): array
+    public function getPaymentList(): array
     {
-        return $this->success;
+        return $this->payments;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalAmount(): float
+    {
+        return $this->totalAmount;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalAmountPayment(): float
+    {
+        return $this->totalAmountPayment;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalCommission(): float
+    {
+        return $this->totalCommission;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getError(): ?string
+    {
+        return $this->error;
     }
 }

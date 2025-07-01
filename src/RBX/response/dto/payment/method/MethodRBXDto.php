@@ -47,10 +47,4 @@ class MethodRBXDto extends BaseDto
      * @var float $max_amount
      */
     public float $max_amount;
-
-    /**
-     * Требуемые поля для проведения платежа
-     * @var array $payment_fields
-     */
-    public array $payment_fields = [];
 }

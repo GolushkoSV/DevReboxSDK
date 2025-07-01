@@ -104,7 +104,7 @@ class PaymentOutCollection extends BaseRequest
      * @return ChainPaymentRBXDto
      * @throws \Exception
      */
-    public function getChainPayment(string $chainUid): ChainPaymentRBXDto
+    public function getChainPaymentInfo(string $chainUid): ChainPaymentRBXDto
     {
         $response = $this->execute(
             self::PATH_CHAIN_PAYMENT,
