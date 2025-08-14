@@ -6,8 +6,35 @@ PHP SDK модуль для интеграции платежной систем
 
 Установка с помощью [composer](https://getcomposer.org/download/):
 
+**Если у вас нет PHP проекта и хотите попробовать использовать PHP-SDK <br>**
+**Вы можете создать в пустой директории основу проекта, файл composer, выполнив следующую команду.**
 ```bash
-$ composer require rbx/rbx-php-sdk
+composer init --no-interaction --repository='{"type":"vcs","url":"https://github.com/Reboxpro/ReboxSDK.git"}' --repository='{ "type": "composer",  "url": "https://asset-packagist.org"}' --require='rbx/rbx-php-sdk:*'
+
+```
+
+**После появится файл composer.json с подключенным репозиторием. Репозиторием, где хранится данный модуль <br>**
+**Следом вам следует выполнить следующую команду**
+```bash
+composer install
+```
+
+**Она установит все подключенные модули в разделе require composer.json, в том числе и PHP-SDK Rebox, и установит его в папку vendor. <br>**
+**Если у вас уже есть проект на PHP с composer.json, достаточно добавить в "repository" github модуля.**
+```json
+{
+  "repository": [
+    {
+      "type":"vcs",
+      "url":"https://github.com/Reboxpro/ReboxSDK.git"
+    }
+  ]
+}
+```
+
+**Следом выполнить следующую команду, которая установит модуль в проект.**
+```bash
+composer require rbx/rbx-php-sdk
 ```
 
 ## Документация
@@ -100,19 +127,38 @@ $methodListDto = $apiClientRBX->paymentOut()->getMethodList($currencyId);
 $methodId = 11;
 $paymentFieldsDto = $apiClientRBX->paymentOut()->getPaymentFields($methodId);
 
+/** 
+ * PaymentFieldsDto содержит один метод. getList(). При помощи его можно получить список объектов по каждому параметру платежа.
+ * Пример параметра платежа для метода вывода на мобильный телефон
+ * 
+*/
+foreach ($paymentFieldsDto as $paymentFieldDto) {
+    $paymentFieldDto->code = "account"          /** Главный атрибут платежа. Его необходимо передавать в метод платежа */
+    $paymentFieldDto->title = "Номер телефона"  /** Наименование атрибута */
+    $paymentFieldDto->label = "Номер телефона"  /** label атрибута */
+    $paymentFieldDto->mask = "+7($$$)$$$-$$-$$" /** Маска валидации значения атрибута */
+    $paymentFieldDto->regexp = "/^9[0-9]{9}$/"  /** Регулярное выражение значения атрибута */
+    $paymentFieldDto->minLen = 10               /** Минимальная длина значения атрибута */
+    $paymentFieldDto->maxLen = 10               /** Максимальная длина значения атрибута */
+}
+
+/** 
+ * Значение для атрибута 'code' должно соответствовать правилам minLen, maxLen и regexp
+ * Если в параметрах платежа они не являются NULL 
+ */
 
 // Запрос на вывод средств из платежной системы RBX
 $methodId = 11; // Метод платежа на вывод средств
 $amount = 2000; // Сумма платежа
 // Параметры платежа
 $paymentFields = [
-    'account' => '1234 1234 1234 1234' // Номер карты, полученный из метода paymentFields
+    'account' => '9139999999' // Номер телефона, полученный из метода paymentFields
 ];
 
 $paymentOutDto = $apiClientRBX->paymentOut()->payment($methodId, $amount, $paymentFields);
 
 // Получение информации о цепочки платежей 
-$chainUid = 'fdsfoejr123'; // UID цепочки платежей
+$chainUid = 'fdsfoejr123'; // UID/RNN цепочки платежей
 $chainPaymentDto = $apiClientRBX->paymentOut()->getChainPaymentInfo($chainUid);
 
 // Получение информации об исходящем платеже

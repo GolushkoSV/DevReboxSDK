@@ -17,27 +17,27 @@ class PaymentFieldRBXDto extends BaseDto
     public string $title;
 
     /**
-     * @var string $label
+     * @var string|null
      */
-    public string $label;
+    public ?string $label;
 
     /**
-     * @var string $mask
+     * @var string|null
      */
-    public string $mask;
+    public ?string $mask;
 
     /**
-     * @var string $regexp
+     * @var string|null
      */
-    public string $regexp;
+    public ?string $regexp;
 
     /**
-     * @var int $minLen
+     * @var int|null
      */
-    public int $minLen;
+    public ?int $minLen;
 
     /**
-     * @var int $maxLen
+     * @var int|null
      */
-    public int $maxLen;
+    public ?int $maxLen;
 }
