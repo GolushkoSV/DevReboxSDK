@@ -11,11 +11,11 @@ use RBX\response\dto\payment\PaymentRBXDto;
 class PaymentOutCollection extends BaseRequest
 {
     const
-        PATH_METHOD_LIST = 'payment/out/method-list',
+        PATH_METHOD_LIST = 'v2/payment/out/method-list',
         PATH_PAYMENT = 'v2/payment/out/payment',
-        PATH_PAYMENT_INFO = 'payment/out/payment-info',
-        PATH_PAYMENT_FIELDS = 'payment/out/payment-fields',
-        PATH_CHAIN_PAYMENT = 'payment/out/chain-payment';
+        PATH_PAYMENT_INFO = 'v2/payment/out/payment-info',
+        PATH_PAYMENT_FIELDS = 'v2/payment/out/payment-fields',
+        PATH_CHAIN_PAYMENT = 'v2/payment/out/chain-payment';
 
     /**
      * @param int $currencyId

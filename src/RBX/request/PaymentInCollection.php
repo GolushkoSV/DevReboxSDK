@@ -12,9 +12,9 @@ use RBX\response\dto\payment\PaymentRBXDto;
 class PaymentInCollection extends BaseRequest
 {
     const
-        PATH_PAYMENT_IN_CRYPTO_ADDRESS = 'payment/in/crypto-address',
-        PATH_METHOD_LIST = 'payment/in/method-list',
-        PATH_PAYMENT_INFO = 'payment/in/payment-info';
+        PATH_PAYMENT_IN_CRYPTO_ADDRESS = 'v2/payment/in/crypto-address',
+        PATH_METHOD_LIST = 'v2/payment/in/method-list',
+        PATH_PAYMENT_INFO = 'v2/payment/in/payment-info';
 
     /**
      * Получение крипто адреса
