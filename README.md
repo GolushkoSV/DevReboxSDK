@@ -155,7 +155,13 @@ $paymentFields = [
     'account' => '9139999999' // Номер телефона, полученный из метода paymentFields
 ];
 
-$paymentOutDto = $apiClientRBX->paymentOut()->payment($methodId, $amount, $paymentFields);
+// Если в параметре платежа можно указать файл или изображение 
+// То необходимо указать наименование данного параметра и путь до необходимого файла в следующем формате
+$files = [
+    'qrcode' => 'temp/upload/test.jpg'
+];
+
+$paymentOutDto = $apiClientRBX->paymentOut()->payment($methodId, $amount, $paymentFields, $files);
 
 // Получение информации о цепочки платежей 
 $chainUid = 'fdsfoejr123'; // UID/RNN цепочки платежей

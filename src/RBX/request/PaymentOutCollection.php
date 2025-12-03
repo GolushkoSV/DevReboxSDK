@@ -12,7 +12,7 @@ class PaymentOutCollection extends BaseRequest
 {
     const
         PATH_METHOD_LIST = 'payment/out/method-list',
-        PATH_PAYMENT = 'payment/out/payment',
+        PATH_PAYMENT = 'v2/payment/out/payment',
         PATH_PAYMENT_INFO = 'payment/out/payment-info',
         PATH_PAYMENT_FIELDS = 'payment/out/payment-fields',
         PATH_CHAIN_PAYMENT = 'payment/out/chain-payment';
@@ -40,19 +40,26 @@ class PaymentOutCollection extends BaseRequest
      * @param int $methodId
      * @param float $amount
      * @param array $params
+     * @param array $files
      * @return PaymentOutRBXDto
      * @throws \Exception
      */
-    public function payment(int $methodId, float $amount, array $params): PaymentOutRBXDto
-    {
+    public function payment(
+        int $methodId,
+        float $amount,
+        array $params,
+        array $files = []
+    ): PaymentOutRBXDto {
         $response = $this->execute(
             self::PATH_PAYMENT,
             self::METHOD_POST,
             ['methodId' => $methodId],
             [
                 'amount_payment' => $amount,
-                'payment_fields' => $params
-            ]
+                'payment_fields' => json_encode($params),
+            ],
+            $files,
+            ['Content-Type' => 'multipart/form-data']
         );
 
         $result = new PaymentOutRBXDto();

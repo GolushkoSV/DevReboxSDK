@@ -31,10 +31,13 @@ class BaseRequest
     }
 
     /**
+     * files = ["name" => "filePath"]
+     *
      * @param string $path
      * @param string $method
      * @param array $query
      * @param array $data
+     * @param array $files
      * @param array $headers
      * @return CurlResponseDto
      * @throws \Exception
@@ -44,6 +47,7 @@ class BaseRequest
         string $method,
         array $query = [],
         array $data = [],
+        array $files = [],
         array $headers = []
     ): CurlResponseDto {
         $signService = new SignService($this->secretKey);
@@ -52,8 +56,16 @@ class BaseRequest
             'Header-Sign' => $signService->generateSign(http_build_query($query), $data)
         ]);
 
+        if (!empty($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data') {
+            foreach ($files as $name => $filePath) {
+                $data[$name] = new \CURLFile(
+                    $filePath
+                );
+            }
+        }
+
         $curl = new CurlClient();
 
-        return $curl->call($this->host .'/'. $path, $method, $query, json_encode($data), $headers);
+        return $curl->call($this->host .'/'. $path, $method, $query, $data, $headers);
     }
 }
