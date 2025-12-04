@@ -6,7 +6,7 @@ use RBX\response\dto\reference\CurrencyListRBXDto;
 
 class ReferenceCollection extends BaseRequest
 {
-    const PATH_CURRENCY_LIST = 'v2/reference/currency-list';
+    const PATH_CURRENCY_LIST = 'reference/currency-list';
 
     /**
      * @return CurrencyListRBXDto
