@@ -30,13 +30,13 @@ class CurlClient
         string $path,
         string $method,
         array $queryParams = [],
-        string $httpBody = null,
+        array $httpBody = [],
         array $headers = []
     ): CurlResponseDto {
         $headers = array_merge($this->defaultHeaders, $headers);
 
         $url = $this->prepareUrl($path, $queryParams);
-        $this->prepareCurl($method, $httpBody, $this->implodeHeaders($headers), $url);
+        $this->prepareCurl($url, $method, $httpBody, $headers);
 
         list($httpHeaders, $httpBody, $responseInfo) = $this->sendRequest();
         $this->closeCurlConnection();
@@ -44,7 +44,7 @@ class CurlClient
         return new CurlResponseDto(
             $responseInfo['http_code'],
             $httpHeaders,
-            $httpBody,
+            $httpBody
         );
     }
 
@@ -173,13 +173,13 @@ class CurlClient
     }
 
     /**
-     * @param string $method
-     * @param string $httpBody
-     * @param array $headers
      * @param string $url
+     * @param string $method
+     * @param array $httpBody
+     * @param array $headers
      * @throws \Exception
      */
-    private function prepareCurl(string $method, string $httpBody, array $headers, string $url)
+    private function prepareCurl(string $url, string $method, array $httpBody = [], array $headers = [])
     {
         $this->initCurl();
 
@@ -189,8 +189,13 @@ class CurlClient
 
         $this->setCurlOption(CURLOPT_HEADER, true);
 
-        $this->setBody($method, $httpBody);
+        if ($headers['Content-Type'] == 'multipart/form-data') {
+            $this->setCurlOption(CURLOPT_POSTFIELDS, $httpBody);
+        } else {
+            $this->setBody($method, json_encode($httpBody));
+        }
 
+        $headers = $this->implodeHeaders($headers);
         $this->setCurlOption(CURLOPT_HTTPHEADER, $headers);
 
         $this->setCurlOption(CURLOPT_CONNECTTIMEOUT, $this->connectionTimeout);
