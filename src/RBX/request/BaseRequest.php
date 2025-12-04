@@ -35,7 +35,7 @@ class BaseRequest
      *
      * @param string $path
      * @param string $method
-     * @param array $query
+     * @param array $queryParams
      * @param array $data
      * @param array $files
      * @param array $headers
@@ -45,7 +45,7 @@ class BaseRequest
     protected function execute(
         string $path,
         string $method,
-        array $query = [],
+        array $queryParams = [],
         array $data = [],
         array $files = [],
         array $headers = []
@@ -53,7 +53,7 @@ class BaseRequest
         $signService = new SignService($this->secretKey);
         $headers = array_merge($headers, [
             'Header-Serial' => $this->serial,
-            'Header-Sign' => $signService->generateSign(http_build_query($query), $data)
+            'Header-Sign' => $signService->generateSign($path, $queryParams)
         ]);
 
         if (!empty($headers['Content-Type']) && $headers['Content-Type'] == 'multipart/form-data') {
@@ -66,6 +66,6 @@ class BaseRequest
 
         $curl = new CurlClient();
 
-        return $curl->call($this->host .'/'. $path, $method, $query, $data, $headers);
+        return $curl->call($this->host .'/'. $path, $method, $queryParams, $data, $headers);
     }
 }

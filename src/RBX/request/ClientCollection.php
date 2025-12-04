@@ -7,8 +7,8 @@ use RBX\response\dto\client\WalletListRBXDto;
 
 class ClientCollection extends BaseRequest
 {
-    const PATH_BALANCE = 'client/balance';
-    const PATH_WALLET_LIST = 'client/wallet-list';
+    const PATH_BALANCE = 'v2/client/balance';
+    const PATH_WALLET_LIST = 'v2/client/wallet-list';
 
     /**
      * @param int $currencyId

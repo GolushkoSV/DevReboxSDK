@@ -16,40 +16,19 @@ class SignService
     }
 
     /**
-     * @param string $queryString
-     * @param array $postData
+     * @param string $urlPath
+     * @param array $queryParams
      * @return string
-     * @throws \Exception
      */
-    public function generateSign(string $queryString = '', array $postData = []): string
+    public function generateSign(string $urlPath, array $queryParams = []): string
     {
-        $preparedPostData = $this->clearDataFromJson($postData);
-        $data = $queryString . json_encode($preparedPostData);
+        $data = $urlPath;
+        if (!empty($queryParams)) {
+            $data .= '?' . http_build_query($queryParams);
+        }
+
         openssl_sign($data, $signature, base64_decode($this->secret_key), OPENSSL_ALGO_SHA512);
 
         return base64_encode($signature);
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function clearDataFromJson(array $data): array
-    {
-        $result = [];
-        foreach ($data as $k => $v) {
-            if (is_array($v)) {
-                $result[$k] = $this->clearDataFromJson($v);
-            } else {
-                $preparedValue = json_decode($v, true);
-                if (json_last_error() !== JSON_ERROR_NONE || is_numeric($preparedValue)) {
-                    $result[$k] = $v;
-                } else {
-                    $result[$k] = $preparedValue;
-                }
-            }
-        }
-
-        return $result;
     }
 }
